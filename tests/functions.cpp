@@ -1,30 +1,32 @@
 #define CATCH_CONFIG_MAIN
 
 #include <iostream>
-#include <vector>
-#include "../vector.hpp"
-#include "catch.hpp"
+#include <vector>           // std::vector container
+#include "../vector.hpp"    // Custom vector class
+#include "catch.hpp"        // Catch framework
 
 
-TEST_CASE("Constructors") {
-    vector<int> fakeEmpty, fake(5, 10), fakeCopy(fake);
-    std::vector<int> realEmpty, real(5, 10), realCopy(real);
+TEST_CASE("1. Constructors") {
+    vector<int> fakeEmpty, fake(5, 10), fakeCopy(fake), fakeArray{2, 3, 4, 5, 7};
+    std::vector<int> realEmpty, real(5, 10), realCopy(real), realArray{2, 3, 4, 5, 7};;
 
     SECTION("Size") {
         REQUIRE( fakeEmpty.size() == realEmpty.size() );
         REQUIRE( fake.size() == real.size() );
         REQUIRE( fakeCopy.size() == realCopy.size() );
+        REQUIRE( fakeArray.size() == realArray.size() );
+
     }
     SECTION("Values") {
-        for (int i = 0; i < fake.size(); i ++)
+        for (int i = 0; i < fake.size(); i ++) {
             REQUIRE( fake[i] == real[i] );
-
-        for (int i = 0; i < fake.size(); i ++)
             REQUIRE( fakeCopy[i] == realCopy[i] );
+            REQUIRE( fakeArray[i] == realArray[i] );
+        } 
     }
 }
 
-TEST_CASE("Push back") {
+TEST_CASE("2. Push back") {
     vector<int> fake(3, 10);
     std::vector<int> real(3, 10);
 
@@ -33,10 +35,10 @@ TEST_CASE("Push back") {
 
     REQUIRE( fake.size() == real.size() );
     REQUIRE( fake.capacity() == real.capacity() );
-    REQUIRE( *(fake.end()-1) == *(real.end()-1) );
+    REQUIRE( fake.back() == fake.back() );
 }
 
-TEST_CASE("Reserve and shrink to fit") {
+TEST_CASE("3. Reserve and shrink to fit") {
     vector<int> fake(2, 55);
     std::vector<int> real(2, 55);
 
@@ -51,9 +53,10 @@ TEST_CASE("Reserve and shrink to fit") {
     REQUIRE( fake.capacity() == real.capacity() );
 }
 
-TEST_CASE ("Assign") {
+TEST_CASE ("4. Assign") {
     vector<int> fake(10, 55);
     std::vector<int> real(10, 55);
+
 
     WHEN("New size < old size") {
         fake.assign(5, 3);
@@ -76,14 +79,14 @@ TEST_CASE ("Assign") {
     }
 }
 
-TEST_CASE ("Allocator") {
+TEST_CASE ("5. Allocator") {
     vector<int> fake(10, 55);
     std::vector<int> real(10, 55);
 
     REQUIRE( fake.get_allocator() == real.get_allocator());
 }
 
-TEST_CASE("Element Access") {
+TEST_CASE("6. Element Access") {
     vector<int> fake(10);
     std::vector<int> real(10);
 
@@ -97,7 +100,7 @@ TEST_CASE("Element Access") {
     REQUIRE(fake.back() == real.back());
 }
 
-TEST_CASE("Clear") {
+TEST_CASE("7. Clear") {
     vector<int> fake(5, 55);
     std::vector<int> real(5, 55);
 
@@ -108,7 +111,7 @@ TEST_CASE("Clear") {
     REQUIRE(fake.capacity() == real.capacity());
 }
 
-TEST_CASE("Insert") {
+TEST_CASE("8. Insert") {
     vector<int> fake(10, 5);
     std::vector<int> real(10, 5);
 
@@ -123,7 +126,7 @@ TEST_CASE("Insert") {
         for (int i = 0; i < fake.size(); i ++)
             REQUIRE(fake[i] == real[i]);
     }
-    SECTION("Range of elements") {
+    SECTION("Copies of elements") {
         int ten = 10;
         itfake = fake.insert(itfake, 3, ten);
         itreal = real.insert(itreal, 3, ten);
@@ -135,7 +138,7 @@ TEST_CASE("Insert") {
 
 }
 
-TEST_CASE("Erase") {
+TEST_CASE("9. Erase") {
     vector<int> fake(10);
     std::vector<int> real(10);
 
@@ -172,7 +175,7 @@ TEST_CASE("Erase") {
 
 }
 
-TEST_CASE("Pop back") {
+TEST_CASE("10. Pop back") {
     vector<int> fake(10);
     std::vector<int> real(10);
 
@@ -188,7 +191,7 @@ TEST_CASE("Pop back") {
         REQUIRE(fake[i] == real[i]);
 }
 
-TEST_CASE("Resize") {
+TEST_CASE("11. Resize") {
     vector<int> fake(10, 10);
     std::vector<int> real(10, 10);
 
@@ -222,7 +225,7 @@ TEST_CASE("Resize") {
     }
 }
 
-TEST_CASE("Swap") {
+TEST_CASE("12. Swap") {
     vector<int> fake1(10, 10), fake2(5, 5);
     std::vector<int> real1(10, 10), real2(5, 5);
 
@@ -234,7 +237,7 @@ TEST_CASE("Swap") {
         for (int i = 0; i < fake1.size(); i ++)
                 REQUIRE(fake1[i] == real1[i]);
     }
-    SECTION ("Larger to smaller") {
+    SECTION ("Smaller to larger") {
     fake2.swap(fake1);
     real2.swap(real1);
 
@@ -244,7 +247,7 @@ TEST_CASE("Swap") {
     }
 }
 
-TEST_CASE("Operators") {
+TEST_CASE("13. Operators") {
     vector<int> fake1(10, 5), fake2(10, 5), fake3(10, 3), fake4(4, 2);
 
     SECTION ("==") {
