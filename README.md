@@ -1,17 +1,20 @@
 # Vector
-Custom c++ vector class, written by recreating *std::vector* container
+Custom C++ vector class, written by recreating *std::vector* container
 
 ## Installation and usage:
 
- 1. Download the header file from [releases page](https://github.com/Naktis/vector/releases) or using *git*:
+ 1. Download the header file from the [releases page](https://github.com/Naktis/vector/releases) or using *git*:
+ 
     `git clone https://github.com/Naktis/vector.git`
  2. Include the header file to your program
-    i.e.: If the header file is in the same directory, type `#include "vector.hpp"` at the top of your file
+ 
+    i.e.: If the header file is in the same directory, write `#include "vector.hpp"` at the top of your file
  3. Use it the same way as you would use *std::vector*, but ignore the *std::* part when declaring new vectors
 
 ## Some of the functions
- 1. Assign - replaces the contents with *count* copies of *value*
-    ```
+ 1. **Assign** - replaces the contents with *count* copies of *value*
+ 
+    ```cpp
     template <class T> 
     void vector<T>::assign( size_type count, const T& value ) {
         if (count < 1)
@@ -30,8 +33,9 @@ Custom c++ vector class, written by recreating *std::vector* container
         }
     }
     ```
- 2. Erase - removes the element at *pos* position
-    ```
+ 2. **Erase** - removes the element at *pos* position
+ 
+    ```cpp
     template <class T> 
     typename vector<T>::iterator vector<T>::erase( iterator pos ) {
         if (pos < data || pos >= avail)
@@ -44,8 +48,9 @@ Custom c++ vector class, written by recreating *std::vector* container
         return pos;
     }
     ```
- 3. Swap - exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements
-    ```
+ 3. **Swap** - exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements
+ 
+    ```cpp
     template <class T>
     void vector<T>::swap( vector<T>& other ) {
         iterator temp = data;
@@ -61,9 +66,10 @@ Custom c++ vector class, written by recreating *std::vector* container
         other.limit = temp;
     }
     ```
- 4. Operator == - checks if the contents of the current class and another class are equal, if they have the same number of elements and each element in the current class compares equal with the element in another class at the same position.
-    ```
-    template <class T>
+ 4. **Operator ==** - checks if both vectors have the same size and values
+ 
+    ```cpp
+    template <class T>cpp
     bool vector<T>::operator==(const vector<T>& other) const {
         if (size() == other.size()) {
             for (int i = 0; i < size(); i ++)
@@ -73,9 +79,10 @@ Custom c++ vector class, written by recreating *std::vector* container
         } else return false;
     }
     ```
- 5. Operator < - compares the contents of the current class and another lexicographically: compares elements each by each; if it finds a mismatching element, returns their comparison result; if no mismatches are found; if one range is a prefix of another, the shorter range is lexicographically less than the other
-    ```
-    template <class T>
+ 5. **Operator <** - compares the contents of two vectors lexicographically: checks elements each by each; if the operator finds a mismatching element, it returns their comparison result. If one range is a prefix of another, the shorter range is lexicographically less than the other (i.e. "Bana" < "Banana", because "Bana" is a prefix of "Banana" and they have no mismatching elements)
+ 
+    ```cpp
+    template <class T>cpp
     bool vector<T>::operator<(const vector<T>& other) const {
         size_type smaller_size;
         if (size() < other.size())
@@ -114,7 +121,8 @@ Element count: 100 000 000 integers
 | std::vector | 27                 | 67108864         |
 | vector      | 27                 | 67108864         |
 
-Using *vector* container the occupied memory was reallocated the same number of times as using *std::vector*
+Using *vector* container the occupied memory was reallocated the same number of times as using *std::vector*.
+
 
 ### Runtime analysis // [Final grades 2](https://github.com/Naktis/final-grades-2)
 
