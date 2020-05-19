@@ -118,8 +118,8 @@ Element count: 100 000 000 integers
 
 | Container   | Reallocation count | Reached capacity |
 | ----------- | ------------------ | ---------------- |
-| std::vector | 27                 | 67108864         |
-| vector      | 27                 | 67108864         |
+| std::vector | 28                 | 134217728        |
+| vector      | 28                 | 134217728        |
 
 Using *vector* container the occupied memory was reallocated the same number of times as using *std::vector*.
 

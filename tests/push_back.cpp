@@ -3,39 +3,49 @@
 #include "../vector.hpp"
 #include "timer.h"
 
-void real (unsigned int sz) {
-    std::vector<int> v;
+void measure (unsigned int sz, bool std) {
+    std::vector<int> real;
+    vector<int> fake;
     Timer T;
-    int realloc = 0;
-    T.set();
-    for (int i = 1; i <= sz; ++i) {
-        if (v.size() == v.capacity())
-            realloc++;
-        v.push_back(i);
-    }
-    std::cout << "std::vector\n";
-    std::cout << "time: " << T.elapsed() << "s\n";
-    std::cout << "reallocated: " << --realloc << " times\n\n";
-}
+    int reallocCount = 0, capacity;
+    bool didReallocate = false;
 
-void fake (unsigned int sz) {
-    vector<int> v;
-    Timer T;
-    int realloc = 0;
+    std::cout << (std ? "std::vector\n" : "vector\n");
+
     T.set();
-    for (int i = 1; i <= sz; ++i) {
-        if (v.size() == v.capacity()) 
-            realloc++;
-        v.push_back(i);
-    }        
-    std::cout << "vector\n";
+    if (std) {
+        for (int i = 1; i <= sz; ++i) {
+            if (real.size() == real.capacity()) {
+                reallocCount++; 
+                didReallocate = true;
+            }
+            real.push_back(i);
+            if (didReallocate) {
+                capacity = real.capacity();
+                didReallocate = false;
+            }
+        }
+    } else {
+        for (int i = 1; i <= sz; ++i) {
+        if (fake.size() == fake.capacity()) {
+            reallocCount++; 
+            didReallocate = true;
+        }
+        fake.push_back(i);
+        if (didReallocate) {
+            capacity = fake.capacity();
+            didReallocate = false;
+        }
+    }
+    }
     std::cout << "time: " << T.elapsed() << "s\n";
-    std::cout << "reallocated: " << --realloc << " times";
+    std::cout << "reallocated: " << reallocCount << " times\n";
+    std::cout << "reached capacity: " << capacity << "\n\n";
 }
 
 int main() {
     unsigned int sz = 100000000;
-    real(sz);
-    fake(sz);
+    measure (sz, true);
+    measure (sz, false);
     return 0;
 }
