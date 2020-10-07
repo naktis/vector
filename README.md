@@ -142,13 +142,3 @@ Most of the constructors, functions and operators were tested with [Catch](https
 ![tests](https://i.imgur.com/nOrFf0a.jpg)
 
 To run tests by yourself, download a c++ compiler (i.e. [GCC](https://gcc.gnu.org/)), go to the *vector/tests* directory, type `g++ functions.cpp -o fun` and run the code with `./fun` (unix) or `fun` (windows)
-
-
-
-------------
-
-Augustina Šareikaitė
-
-Information Systems Engineering
-
-Vilnius University
